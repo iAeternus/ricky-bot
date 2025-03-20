@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: ricky-bot
+
+server:
+  port: 8082
+
+shiro:
+  ws:
+    server:
+      enable: true
+      url: "/xm"
+
+my:
+  version: 1.0.0
+  author: Ricky
