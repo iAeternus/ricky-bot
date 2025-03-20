@@ -7,7 +7,7 @@ import com.mikuac.shiro.common.utils.MsgUtils;
 import com.mikuac.shiro.core.Bot;
 import com.mikuac.shiro.dto.event.message.GroupMessageEvent;
 import lombok.RequiredArgsConstructor;
-import org.ricky.common.ricky.RickyBotProperties;
+import org.ricky.common.properties.SystemProperties;
 import org.springframework.stereotype.Component;
 
 import static com.mikuac.shiro.core.BotPlugin.MESSAGE_IGNORE;
@@ -26,7 +26,7 @@ import static org.ricky.common.constants.MsgConstants.MENU_TEMPLATE;
 @RequiredArgsConstructor
 public class MenuPlugin {
 
-    private final RickyBotProperties rickyBotProperties;
+    private final SystemProperties systemProperties;
 
     @GroupMessageHandler
     @MessageHandlerFilter(startWith = MENU_CMD)
@@ -40,7 +40,7 @@ public class MenuPlugin {
     }
 
     public String buildMsg() {
-        return String.format(MENU_TEMPLATE, rickyBotProperties.getVersion(), rickyBotProperties.getAuthor());
+        return String.format(MENU_TEMPLATE, systemProperties.getVersion(), systemProperties.getAuthor());
     }
 
 }
