@@ -9,8 +9,8 @@ import org.ricky.core.deepseek.service.DeepseekService;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static org.ricky.common.constants.SuccessMsgConstants.PLEASE_WAIT_MSG;
 
@@ -27,7 +27,7 @@ public class DeepseekServiceImpl implements DeepseekService {
 
     private final OpenAiChatModel chatModel;
 
-    private final Map<Long, Integer> callCnt = new HashMap<>();
+    private final Map<Long, Integer> callCnt = new ConcurrentHashMap<>();
 
     @Override
     public String call(String message) {
@@ -35,11 +35,13 @@ public class DeepseekServiceImpl implements DeepseekService {
         GroupMessageEvent evt = ThreadLocalContext.getContext().getEvt();
         Long userId = evt.getUserId();
 
-        if(callCnt.containsKey(userId)) {
+        if (callCnt.containsKey(userId)) {
             return "请勿重复提问！";
         }
+
         callCnt.put(userId, 1);
 
+        // 生成等待信息
         String waitMsg = MsgUtils.builder()
                 .at(evt.getUserId())
                 .text("\n" + PLEASE_WAIT_MSG)
@@ -48,6 +50,6 @@ public class DeepseekServiceImpl implements DeepseekService {
 
         String ans = chatModel.call(message);
         callCnt.remove(userId);
-        return ans;
+        return "内容由 AI 生成，请仔细甄别\n" + ans;
     }
 }

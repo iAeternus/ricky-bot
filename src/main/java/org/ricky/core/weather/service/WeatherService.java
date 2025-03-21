@@ -1,8 +1,5 @@
 package org.ricky.core.weather.service;
 
-import com.mikuac.shiro.core.Bot;
-import com.mikuac.shiro.dto.event.message.GroupMessageEvent;
-
 /**
  * @author Ricky
  * @version 1.0

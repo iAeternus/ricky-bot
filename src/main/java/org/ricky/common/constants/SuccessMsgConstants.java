@@ -22,8 +22,8 @@ public interface SuccessMsgConstants {
                
             3. 📅 实用工具
                - 查看天气：“#天气 [城市]”
-               - deepseek聊天：“#ds [问题]”
-            
+               - deepseek聊天：“#ds [消息]”
+                        
             4. 🔢 计算工具
                - 计算表达式：“#expr [表达式]”
                  支持加/减/乘/除/取模/求幂/取负操作

@@ -11,12 +11,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.ricky.common.exception.handler.HandleException;
 import org.ricky.common.exception.handler.impl.BotExceptionHandler;
 import org.ricky.core.deepseek.service.DeepseekService;
-import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.stereotype.Component;
 
 import static com.mikuac.shiro.core.BotPlugin.MESSAGE_IGNORE;
-import static org.ricky.common.constants.CmdConstants.*;
-import static org.ricky.common.constants.SuccessMsgConstants.PLEASE_WAIT_MSG;
+import static org.ricky.common.constants.CmdConstants.DEEP_SEEK_CMD;
 
 /**
  * @author Ricky

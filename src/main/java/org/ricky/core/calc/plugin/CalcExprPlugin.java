@@ -37,7 +37,7 @@ public class CalcExprPlugin {
     @HandleException(handler = BotExceptionHandler.class)
     public int calcExpr(Bot bot, GroupMessageEvent evt) {
         String expr = parseArgs(evt.getMessage());
-        if(isBlank(expr)) {
+        if (isBlank(expr)) {
             return MESSAGE_IGNORE;
         }
 

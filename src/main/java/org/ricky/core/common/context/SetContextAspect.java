@@ -33,7 +33,7 @@ public class SetContextAspect {
     public Object executeWithContext(ProceedingJoinPoint joinPoint) throws Throwable {
         String[] argNames = ((MethodSignature) joinPoint.getSignature()).getParameterNames();
         Object[] argValues = joinPoint.getArgs();
-        if(argNames.length != 2 || argValues.length != 2) {
+        if (argNames.length != 2 || argValues.length != 2) {
             throw new MyException(INVALID_MEG_HANDLER_ARGS, "The plugin processor parameter is incorrect",
                     Map.of("argNames", argNames, "argValues", argValues));
         }

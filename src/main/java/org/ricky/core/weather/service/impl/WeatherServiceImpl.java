@@ -1,7 +1,5 @@
 package org.ricky.core.weather.service.impl;
 
-import com.mikuac.shiro.core.Bot;
-import com.mikuac.shiro.dto.event.message.GroupMessageEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.ricky.common.exception.MyException;
@@ -14,11 +12,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static java.util.stream.Collectors.joining;
-import static org.ricky.common.constants.ErrorMsgConstants.*;
+import static org.ricky.common.constants.ErrorMsgConstants.CITY_NOT_FOUND_MSG;
+import static org.ricky.common.constants.ErrorMsgConstants.GET_WEATHER_FAILED_MSG;
 import static org.ricky.common.constants.SuccessMsgConstants.WEATHER_MSG;
-import static org.ricky.common.exception.ErrorCodeEnum.*;
+import static org.ricky.common.exception.ErrorCodeEnum.CITY_NOT_FOUND;
+import static org.ricky.common.exception.ErrorCodeEnum.RPC_FAILED;
 import static org.ricky.core.common.utils.ValidationUtil.isEmpty;
-import static org.ricky.core.common.utils.ValidationUtil.isNull;
 
 /**
  * @author Ricky
