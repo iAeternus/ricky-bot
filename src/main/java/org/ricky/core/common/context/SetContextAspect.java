@@ -1,4 +1,4 @@
-package org.ricky.common.context;
+package org.ricky.core.common.context;
 
 import com.mikuac.shiro.core.Bot;
 import com.mikuac.shiro.dto.event.message.GroupMessageEvent;
@@ -10,7 +10,6 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.ricky.common.exception.MyException;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Method;
 import java.util.Map;
 
 import static org.ricky.common.exception.ErrorCodeEnum.INVALID_MEG_HANDLER_ARGS;

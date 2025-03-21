@@ -3,7 +3,7 @@ package org.ricky.common.exception.handler.impl;
 import com.mikuac.shiro.common.utils.MsgUtils;
 import com.mikuac.shiro.core.Bot;
 import com.mikuac.shiro.dto.event.message.GroupMessageEvent;
-import org.ricky.common.context.ThreadLocalContext;
+import org.ricky.core.common.context.ThreadLocalContext;
 import org.ricky.common.exception.MyException;
 import org.ricky.common.exception.handler.ExceptionHandler;
 import org.springframework.stereotype.Component;

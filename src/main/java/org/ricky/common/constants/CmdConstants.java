@@ -12,6 +12,9 @@ public interface CmdConstants {
     String HELLO_CMD = "#hello";
     String MENU_CMD = "#menu";
     String WEATHER_CMD = "#天气";
-    String CALC_CMD = "#calc";
+    String CALC_CMD = "#expr";
+    String CG_CMD = "#cg";
+    String CZ_CMD = "#cz";
+    String DEEP_SEEK_CMD = "#ds";
 
 }
