@@ -1,12 +1,8 @@
 package org.ricky.core.calc.plugin;
 
-import com.mikuac.shiro.annotation.GroupMessageHandler;
-import com.mikuac.shiro.annotation.MessageHandlerFilter;
 import com.mikuac.shiro.annotation.common.Shiro;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
-import static org.ricky.common.constants.CmdConstants.CALC_CMD;
 
 /**
  * @author Ricky

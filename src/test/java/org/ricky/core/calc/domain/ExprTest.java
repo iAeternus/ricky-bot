@@ -3,7 +3,7 @@ package org.ricky.core.calc.domain;
 import org.junit.jupiter.api.Test;
 
 import static java.lang.Math.pow;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Ricky

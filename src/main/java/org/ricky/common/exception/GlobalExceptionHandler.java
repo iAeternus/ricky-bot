@@ -4,8 +4,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.ricky.common.exception.MyError;
-import org.ricky.common.exception.MyException;
 import org.ricky.common.tracing.TracingService;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
