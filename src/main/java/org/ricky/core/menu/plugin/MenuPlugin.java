@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 import static com.mikuac.shiro.core.BotPlugin.MESSAGE_IGNORE;
 import static org.ricky.common.constants.CmdConstants.MENU_CMD;
-import static org.ricky.common.constants.MsgConstants.MENU_TEMPLATE;
+import static org.ricky.common.constants.SuccessMsgConstants.MENU_MSG;
 
 /**
  * @author Ricky
@@ -40,7 +40,7 @@ public class MenuPlugin {
     }
 
     public String buildMsg() {
-        return String.format(MENU_TEMPLATE, systemProperties.getVersion(), systemProperties.getAuthor());
+        return String.format(MENU_MSG, systemProperties.getVersion(), systemProperties.getAuthor());
     }
 
 }

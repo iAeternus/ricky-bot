@@ -8,13 +8,10 @@ import com.mikuac.shiro.core.Bot;
 import com.mikuac.shiro.dto.event.message.GroupMessageEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.ricky.core.common.api.RestApis;
-import org.ricky.core.weather.domain.LiveWeather;
-import org.ricky.core.weather.domain.WeatherResponse;
+import org.ricky.common.exception.handler.HandleException;
+import org.ricky.core.common.exception.BotExceptionHandler;
 import org.ricky.core.weather.service.WeatherService;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 import static com.mikuac.shiro.core.BotPlugin.MESSAGE_IGNORE;
 import static org.ricky.common.constants.CmdConstants.WEATHER_CMD;
@@ -36,11 +33,12 @@ public class WeatherPlugin {
 
     @GroupMessageHandler
     @MessageHandlerFilter(startWith = WEATHER_CMD)
+    @HandleException(handler = BotExceptionHandler.class)
     public int handleWeather(Bot bot, GroupMessageEvent evt) {
         String city = parseArgs(evt.getMessage());
         log.info("查询城市：{}", city);
 
-        String msg = weatherService.getCurrentWeather(city);
+        String msg = weatherService.getCurrentWeather(city, bot, evt);
 
         String sendMsg = MsgUtils.builder()
                 .at(evt.getUserId())

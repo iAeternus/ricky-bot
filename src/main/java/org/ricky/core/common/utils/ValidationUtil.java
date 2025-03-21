@@ -109,7 +109,7 @@ public class ValidationUtil {
      * @param <T>     对象类型
      * @return 非空对象
      */
-    public static <T> T requireNonNull(T obj, String message) {
+    public static <T> T requireNotNull(T obj, String message) {
         return Objects.requireNonNull(obj, message);
     }
 
@@ -129,7 +129,7 @@ public class ValidationUtil {
      * @param obj 待检查的对象
      * @return 如果对象非 <code>null</code>，返回 <code>true</code>
      */
-    public static boolean nonNull(Object obj) {
+    public static boolean notNull(Object obj) {
         return Objects.nonNull(obj);
     }
 
