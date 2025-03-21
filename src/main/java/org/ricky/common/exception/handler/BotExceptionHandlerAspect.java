@@ -25,7 +25,7 @@ import static org.ricky.core.common.utils.ValidationUtil.notNull;
  * @author Ricky
  * @version 1.0
  * @date 2025/3/21
- * @className ExceptionHandlerAspect
+ * @className BotExceptionHandlerAspect
  * @desc
  */
 @Slf4j
@@ -33,7 +33,7 @@ import static org.ricky.core.common.utils.ValidationUtil.notNull;
 @Order(1)
 @Component
 @RequiredArgsConstructor
-public class ExceptionHandlerAspect {
+public class BotExceptionHandlerAspect {
 
     private final TracingService tracingService;
 
@@ -46,29 +46,33 @@ public class ExceptionHandlerAspect {
         try {
             return joinPoint.proceed();
         } catch (BotException ex) {
-            String methodName = joinPoint.getSignature().getName();
-            String traceId = tracingService.currentTraceId();
-            MyError error = new MyError(ex, "", traceId);
-            log.error("Method: [{}], Error: [{}]", methodName, error);
-
-            Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
-            HandleException handleException = method.getAnnotation(HandleException.class);
-            if (notNull(handleException)) {
-                Class<? extends ExceptionHandler> handlerClass = handleException.handler();
-                try {
-                    ExceptionHandler handler = SpringApplicationContext.getBean(handlerClass);
-                    return handler.handle(ex);
-                } catch (Exception handlerEx) {
-                    log.error("处理异常时出错：{}", handlerEx.getMessage());
-                    throw new MyException(HANDLING_ERROR, "处理异常时出错");
-                }
-            } else {
-                log.error("方法 [{}] 上未找到 HandleException 注解", methodName);
-                throw new MyException(ANNOTATION_NOT_FOUND, "未找到 HandleException 注解", Map.of("methodName", methodName));
-            }
-        } catch (MyException ex) {
+            return handleBotException(joinPoint, ex);
+        } catch (Exception ex) {
             log.error("不支持的异常类型：{}", ex.getClass());
             throw new MyException(UNSUPPORTED_EXCEPTION_TYPE, "不支持的异常类型", Map.of("exceptionClass", ex.getClass()));
+        }
+    }
+
+    private int handleBotException(ProceedingJoinPoint joinPoint, BotException ex) {
+        String methodName = joinPoint.getSignature().getName();
+        String traceId = tracingService.currentTraceId();
+        MyError error = new MyError(ex, "", traceId);
+        log.error("Method: [{}], Error: [{}]", methodName, error);
+
+        Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
+        HandleException handleException = method.getAnnotation(HandleException.class);
+        if (notNull(handleException)) {
+            Class<? extends ExceptionHandler> handlerClass = handleException.handler();
+            try {
+                ExceptionHandler handler = SpringApplicationContext.getBean(handlerClass);
+                return handler.handle(ex);
+            } catch (Exception handlerEx) {
+                log.error("处理异常时出错：{}", handlerEx.getMessage());
+                throw new MyException(HANDLING_ERROR, "处理异常时出错");
+            }
+        } else {
+            log.error("方法 [{}] 上未找到 HandleException 注解", methodName);
+            throw new MyException(ANNOTATION_NOT_FOUND, "未找到 HandleException 注解", Map.of("methodName", methodName));
         }
     }
 

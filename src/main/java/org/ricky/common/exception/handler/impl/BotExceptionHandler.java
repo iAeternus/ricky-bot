@@ -1,4 +1,4 @@
-package org.ricky.core.common.exception;
+package org.ricky.common.exception.handler.impl;
 
 import com.mikuac.shiro.common.utils.MsgUtils;
 import com.mikuac.shiro.core.Bot;

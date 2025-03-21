@@ -1,7 +1,6 @@
 package org.ricky.common.exception.handler;
 
 import org.ricky.common.exception.BotException;
-import org.ricky.common.exception.MyException;
 
 /**
  * @author Ricky
@@ -12,6 +11,12 @@ import org.ricky.common.exception.MyException;
  */
 public interface ExceptionHandler {
 
+    /**
+     * 处理BotException，构建异常消息
+     *
+     * @param ex 异常
+     * @return plugin返回值
+     */
     int handle(BotException ex);
 
 }

@@ -9,7 +9,7 @@ import com.mikuac.shiro.dto.event.message.GroupMessageEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.ricky.common.exception.handler.HandleException;
-import org.ricky.core.common.exception.BotExceptionHandler;
+import org.ricky.common.exception.handler.impl.BotExceptionHandler;
 import org.ricky.core.weather.service.WeatherService;
 import org.springframework.stereotype.Component;
 

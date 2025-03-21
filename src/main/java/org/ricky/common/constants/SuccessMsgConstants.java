@@ -28,6 +28,6 @@ public interface SuccessMsgConstants {
             - 需要参数的指令请按照提示格式输入
             """;
 
-    String WEATHER_MSG = "%s当前天气%s，温度%s℃，%s风%s级，湿度%s%%，报告时间%s。";
+    String WEATHER_MSG = "%s省 %s 当前天气%s，温度%s℃，%s风%s级，湿度%s%%，报告时间%s。";
 
 }

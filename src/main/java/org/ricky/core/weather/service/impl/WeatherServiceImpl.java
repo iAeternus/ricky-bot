@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static java.util.stream.Collectors.joining;
 import static org.ricky.common.constants.ErrorMsgConstants.*;
 import static org.ricky.common.constants.SuccessMsgConstants.WEATHER_MSG;
 import static org.ricky.common.exception.ErrorCodeEnum.*;
@@ -58,14 +59,17 @@ public class WeatherServiceImpl implements WeatherService {
         if (isEmpty(liveWeathers)) {
             throw new BotException(CITY_NOT_FOUND, CITY_NOT_FOUND_MSG, bot, evt);
         }
-        LiveWeather liveWeather = liveWeathers.get(0);
-        return String.format(WEATHER_MSG,
-                liveWeather.getCity(),
-                liveWeather.getWeather(),
-                liveWeather.getTemperature(),
-                liveWeather.getWinddirection(),
-                liveWeather.getWindpower(),
-                liveWeather.getHumidity(),
-                liveWeather.getReporttime());
+
+        return liveWeathers.stream()
+                .map(liveWeather -> String.format(WEATHER_MSG,
+                        liveWeather.getProvince(),
+                        liveWeather.getCity(),
+                        liveWeather.getWeather(),
+                        liveWeather.getTemperature(),
+                        liveWeather.getWinddirection(),
+                        liveWeather.getWindpower(),
+                        liveWeather.getHumidity(),
+                        liveWeather.getReporttime()))
+                .collect(joining("\n", "匹配到的结果有：\n", ""));
     }
 }

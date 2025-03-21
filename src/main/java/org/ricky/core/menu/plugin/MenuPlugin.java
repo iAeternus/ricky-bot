@@ -7,6 +7,8 @@ import com.mikuac.shiro.common.utils.MsgUtils;
 import com.mikuac.shiro.core.Bot;
 import com.mikuac.shiro.dto.event.message.GroupMessageEvent;
 import lombok.RequiredArgsConstructor;
+import org.ricky.common.exception.handler.HandleException;
+import org.ricky.common.exception.handler.impl.BotExceptionHandler;
 import org.ricky.common.properties.SystemProperties;
 import org.springframework.stereotype.Component;
 
@@ -30,6 +32,7 @@ public class MenuPlugin {
 
     @GroupMessageHandler
     @MessageHandlerFilter(startWith = MENU_CMD)
+    @HandleException(handler = BotExceptionHandler.class)
     public int sayHello(Bot bot, GroupMessageEvent evt) {
         String sendMsg = MsgUtils.builder()
                 .at(evt.getUserId())

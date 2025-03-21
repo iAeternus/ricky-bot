@@ -6,6 +6,8 @@ import com.mikuac.shiro.annotation.common.Shiro;
 import com.mikuac.shiro.common.utils.MsgUtils;
 import com.mikuac.shiro.core.Bot;
 import com.mikuac.shiro.dto.event.message.GroupMessageEvent;
+import org.ricky.common.exception.handler.HandleException;
+import org.ricky.common.exception.handler.impl.BotExceptionHandler;
 import org.springframework.stereotype.Component;
 
 import static com.mikuac.shiro.core.BotPlugin.MESSAGE_IGNORE;
@@ -24,6 +26,7 @@ public class HelloPlugin {
 
     @GroupMessageHandler
     @MessageHandlerFilter(startWith = HELLO_CMD)
+    @HandleException(handler = BotExceptionHandler.class)
     public int sayHello(Bot bot, GroupMessageEvent evt) {
         String sendMsg = MsgUtils.builder()
                 .at(evt.getUserId())
