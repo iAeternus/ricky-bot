@@ -12,6 +12,6 @@ import com.mikuac.shiro.dto.event.message.GroupMessageEvent;
  */
 public interface WeatherService {
 
-    String getCurrentWeather(String city, Bot bot, GroupMessageEvent evt);
+    String getCurrentWeather(String city);
 
 }

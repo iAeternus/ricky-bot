@@ -4,7 +4,7 @@ import com.mikuac.shiro.core.Bot;
 import com.mikuac.shiro.dto.event.message.GroupMessageEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.ricky.common.exception.BotException;
+import org.ricky.common.exception.MyException;
 import org.ricky.core.common.api.RestApis;
 import org.ricky.core.weather.domain.LiveWeather;
 import org.ricky.core.weather.domain.WeatherResponse;
@@ -35,29 +35,25 @@ public class WeatherServiceImpl implements WeatherService {
     private final RestApis restApis;
 
     @Override
-    public String getCurrentWeather(String city, Bot bot, GroupMessageEvent evt) {
-        if (isNull(city)) {
-            throw new BotException(INVALID_CMD_ARGS, INVALID_CMD_ARGS_MSG, bot, evt);
-        }
-
-        List<LiveWeather> liveWeathers = callApi(city, bot, evt);
+    public String getCurrentWeather(String city) {
+        List<LiveWeather> liveWeathers = callApi(city);
         log.info("查询结果：{}", liveWeathers);
 
-        return buildMessage(liveWeathers, bot, evt);
+        return buildMessage(liveWeathers);
     }
 
-    private List<LiveWeather> callApi(String city, Bot bot, GroupMessageEvent evt) {
+    private List<LiveWeather> callApi(String city) {
         WeatherResponse weatherResponse = restApis.getCurrentWeather(city);
         if (!weatherResponse.isValid()) {
             log.error("获取天气信息失败，状态码: {}, 信息: {}", weatherResponse.getStatus(), weatherResponse.getInfo());
-            throw new BotException(RPC_FAILED, GET_WEATHER_FAILED_MSG, bot, evt);
+            throw new MyException(RPC_FAILED, GET_WEATHER_FAILED_MSG);
         }
         return weatherResponse.getLives();
     }
 
-    private String buildMessage(List<LiveWeather> liveWeathers, Bot bot, GroupMessageEvent evt) {
+    private String buildMessage(List<LiveWeather> liveWeathers) {
         if (isEmpty(liveWeathers)) {
-            throw new BotException(CITY_NOT_FOUND, CITY_NOT_FOUND_MSG, bot, evt);
+            throw new MyException(CITY_NOT_FOUND, CITY_NOT_FOUND_MSG);
         }
 
         return liveWeathers.stream()

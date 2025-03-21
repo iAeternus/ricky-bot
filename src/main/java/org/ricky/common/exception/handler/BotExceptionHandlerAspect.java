@@ -7,7 +7,6 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.ricky.common.exception.BotException;
 import org.ricky.common.exception.MyError;
 import org.ricky.common.exception.MyException;
 import org.ricky.common.spring.SpringApplicationContext;
@@ -45,7 +44,7 @@ public class BotExceptionHandlerAspect {
     public Object executeWithExceptionHandle(ProceedingJoinPoint joinPoint) throws Throwable {
         try {
             return joinPoint.proceed();
-        } catch (BotException ex) {
+        } catch (MyException ex) {
             return handleBotException(joinPoint, ex);
         } catch (Exception ex) {
             log.error("不支持的异常类型：{}", ex.getClass());
@@ -53,7 +52,7 @@ public class BotExceptionHandlerAspect {
         }
     }
 
-    private int handleBotException(ProceedingJoinPoint joinPoint, BotException ex) {
+    private int handleBotException(ProceedingJoinPoint joinPoint, MyException ex) {
         String methodName = joinPoint.getSignature().getName();
         String traceId = tracingService.currentTraceId();
         MyError error = new MyError(ex, "", traceId);

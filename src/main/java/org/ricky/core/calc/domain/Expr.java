@@ -1,9 +1,13 @@
 package org.ricky.core.calc.domain;
 
 import lombok.Getter;
+import org.ricky.common.exception.MyException;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static org.ricky.common.constants.ErrorMsgConstants.*;
+import static org.ricky.common.exception.ErrorCodeEnum.*;
 
 /**
  * @author Ricky
@@ -25,7 +29,9 @@ public class Expr {
     @Getter
     private final boolean valid;
 
-    // Token类型枚举
+    /**
+     * Token类型枚举
+     */
     private enum TokenType {
         NUMBER, OPERATOR, LEFT_PAREN, RIGHT_PAREN, UNARY_OP
     }
@@ -62,9 +68,19 @@ public class Expr {
         }
     }
 
-    // 操作符属性记录
+    /**
+     * 操作符属性
+     */
     private static class OpProperty {
+
+        /**
+         * 优先级
+         */
         final int precedence;
+
+        /**
+         * 是否右结合
+         */
         final boolean rightAssoc;
 
         OpProperty(int precedence, boolean rightAssoc) {
@@ -79,16 +95,20 @@ public class Expr {
             tokenize(filtered);
             valid = checkBrackets();
         } catch (Exception e) {
-            throw new RuntimeException("Tokenization error: " + e.getMessage());
+            throw new MyException(TOKENIZATION_ERROR, TOKENIZATION_ERROR_MSG, Map.of("message", e.getMessage()));
         }
     }
 
     public double eval() {
-        if (!valid) throw new RuntimeException("Invalid expression");
-        return evaluatePostfix(infixToPostfix());
+        if (!valid) throw new MyException(INVALID_EXPRESSION, INVALID_EXPRESSION_MSG);
+        return evalPostfix(in2post());
     }
 
-    // 核心分词方法
+    /**
+     * 核心分词方法
+     *
+     * @param expr 表达式字符串
+     */
     private void tokenize(String expr) {
         StringBuilder numStr = new StringBuilder();
         for (int i = 0; i < expr.length(); i++) {
@@ -107,7 +127,7 @@ public class Expr {
                 } else if (isOperator(c)) {
                     tokens.add(new Token(TokenType.OPERATOR, String.valueOf(c), 0));
                 } else {
-                    throw new RuntimeException("Invalid character: " + c);
+                    throw new MyException(INVALID_CHARACTER, INVALID_CHARACTER_MSG, Map.of("ch", c));
                 }
             }
         }
@@ -141,15 +161,20 @@ public class Expr {
             char c = num.charAt(i);
             if (c == '.') {
                 if (++dotCount > 1) {
-                    throw new RuntimeException("Invalid number: " + num);
+                    throw new MyException(INVALID_NUMBER, INVALID_NUMBER_MSG, Map.of("num", num));
                 }
                 if (i == 0 || i == num.length() - 1) {
-                    throw new RuntimeException("Invalid number: " + num);
+                    throw new MyException(INVALID_NUMBER, INVALID_NUMBER_MSG, Map.of("num", num));
                 }
             }
         }
     }
 
+    /**
+     * 判断括号是否匹配
+     *
+     * @return true=匹配 false=不匹配
+     */
     private boolean checkBrackets() {
         Deque<Token> stack = new ArrayDeque<>();
         for (Token t : tokens) {
@@ -165,8 +190,10 @@ public class Expr {
         return stack.isEmpty();
     }
 
-    // Shunting-yard算法实现
-    private List<Token> infixToPostfix() {
+    /**
+     * 中缀表达式转后缀表达式
+     */
+    private List<Token> in2post() {
         List<Token> output = new ArrayList<>();
         Deque<Token> opStack = new ArrayDeque<>();
 
@@ -183,7 +210,7 @@ public class Expr {
                         output.add(opStack.pop());
                     }
                     if (opStack.isEmpty()) {
-                        throw new RuntimeException("Mismatched parentheses");
+                        throw new MyException(MISMATCHED_PARENTHESES, MISMATCHED_PARENTHESES_MSG);
                     }
                     opStack.pop();
                     break;
@@ -197,14 +224,14 @@ public class Expr {
                     opStack.push(token);
                     break;
                 default:
-                    throw new RuntimeException("Unexpected token");
+                    throw new MyException(UNEXPECTED_TOKEN, UNEXPECTED_TOKEN_MSG);
             }
         }
 
         while (!opStack.isEmpty()) {
             Token t = opStack.pop();
             if (t.type == TokenType.LEFT_PAREN) {
-                throw new RuntimeException("Mismatched parentheses");
+                throw new MyException(MISMATCHED_PARENTHESES, MISMATCHED_PARENTHESES_MSG);
             }
             output.add(t);
         }
@@ -227,7 +254,10 @@ public class Expr {
         }
     }
 
-    private double evaluatePostfix(List<Token> postfix) {
+    /**
+     * 计算后缀表达式
+     */
+    private double evalPostfix(List<Token> postfix) {
         Deque<Double> stack = new ArrayDeque<>();
         for (Token token : postfix) {
             switch (token.type) {
@@ -236,7 +266,7 @@ public class Expr {
                     break;
                 case OPERATOR:
                     if (stack.size() < 2) {
-                        throw new RuntimeException("Insufficient operands");
+                        throw new MyException(INSUFFICIENT_OPERANDS, INSUFFICIENT_OPERANDS_MSG);
                     }
                     double b = stack.pop();
                     double a = stack.pop();
@@ -244,16 +274,16 @@ public class Expr {
                     break;
                 case UNARY_OP:
                     if (stack.isEmpty()) {
-                        throw new RuntimeException("Insufficient operands");
+                        throw new MyException(INSUFFICIENT_OPERANDS, INSUFFICIENT_OPERANDS_MSG);
                     }
                     stack.push(-stack.pop());
                     break;
                 default:
-                    throw new RuntimeException("Unexpected token");
+                    throw new MyException(UNEXPECTED_TOKEN, UNEXPECTED_TOKEN_MSG);
             }
         }
         if (stack.size() != 1) {
-            throw new RuntimeException("Malformed expression");
+            throw new MyException(MALFORMED_EXPRESSION, MALFORMED_EXPRESSION_MSG);
         }
         return stack.pop();
     }
@@ -264,12 +294,12 @@ public class Expr {
             case "-" -> a - b;
             case "*" -> a * b;
             case "/" -> {
-                if (b == 0) throw new RuntimeException("Division by zero");
+                if (b == 0) throw new MyException(DIVIDED_BY_ZERO, DIVIDED_BY_ZERO_MSG);
                 yield a / b;
             }
             case "%" -> a % b;
             case "^" -> Math.pow(a, b);
-            default -> throw new RuntimeException("Unknown operator: " + op);
+            default -> throw new MyException(UNKNOWN_OPERATOR, UNKNOWN_OPERATOR_MSG, Map.of("op", op));
         };
     }
 
