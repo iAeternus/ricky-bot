@@ -20,8 +20,8 @@ public class SpringCommonConfiguration {
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder) {
         return restTemplateBuilder
-                .setConnectTimeout(ofSeconds(10))
-                .setReadTimeout(ofSeconds(10))
+                .setConnectTimeout(ofSeconds(30))
+                .setReadTimeout(ofSeconds(30))
                 .build();
     }
 

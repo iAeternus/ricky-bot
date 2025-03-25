@@ -16,5 +16,6 @@ public interface CmdConstants {
     String CG_CMD = "#cg";
     String CZ_CMD = "#cz";
     String DEEP_SEEK_CMD = "#ds";
+    String TONG_YI_CMD = "#ty";
 
 }

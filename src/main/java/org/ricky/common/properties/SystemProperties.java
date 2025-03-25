@@ -28,9 +28,4 @@ public class SystemProperties {
      */
     private String author;
 
-    /**
-     * 高德地图apiKey
-     */
-    private String amapApiKey;
-
 }

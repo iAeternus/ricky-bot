@@ -23,6 +23,7 @@ public interface SuccessMsgConstants {
             3. 📅 实用工具
                - 查看天气：“#天气 [城市]”
                - deepseek聊天：“#ds [消息]”
+               - 通义万相文生图：“#ty [文本]”
                         
             4. 🔢 计算工具
                - 计算表达式：“#expr [表达式]”
@@ -37,6 +38,6 @@ public interface SuccessMsgConstants {
 
     String WEATHER_MSG = "- %s省 %s 当前天气%s，温度%s℃，%s风%s级，湿度%s%%，报告时间%s。";
 
-    String PLEASE_WAIT_MSG = "正在生成中，请耐心等待！";
+    String PLEASE_WAIT_MSG = "[%s] 正在生成中，请耐心等待！";
 
 }

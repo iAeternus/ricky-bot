@@ -1,14 +1,17 @@
-my:
-  version: 1.0.0
-  author: Ricky
-  amap-api-key: your-amap-api-key
-
 spring:
   ai:
     openai:
-      api-key: your-deepseek-api-key
+      api-key: your-deepseek-apikey
       base-url: https://api.deepseek.com
       chat:
         options:
           model: deepseek-chat
           temperature: 0.5
+
+my:
+  version: 1.0.0
+  author: Ricky
+  amap:
+    api-key: your-amap-apikey
+  tongyi:
+    api-key: your-tongyi-apikey

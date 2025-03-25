@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static org.ricky.common.constants.SuccessMsgConstants.PLEASE_WAIT_MSG;
+import static org.ricky.core.common.utils.BotUtil.sendTextGroupMsg;
 
 /**
  * @author Ricky
@@ -31,7 +32,6 @@ public class DeepseekServiceImpl implements DeepseekService {
 
     @Override
     public String call(String message) {
-        Bot bot = ThreadLocalContext.getContext().getBot();
         GroupMessageEvent evt = ThreadLocalContext.getContext().getEvt();
         Long userId = evt.getUserId();
 
@@ -39,17 +39,12 @@ public class DeepseekServiceImpl implements DeepseekService {
             return "请勿重复提问！";
         }
 
+        sendTextGroupMsg(String.format(PLEASE_WAIT_MSG, "deepseek"));
+
         callCnt.put(userId, 1);
-
-        // 生成等待信息
-        String waitMsg = MsgUtils.builder()
-                .at(evt.getUserId())
-                .text("\n" + PLEASE_WAIT_MSG)
-                .build();
-        bot.sendGroupMsg(evt.getGroupId(), waitMsg, false);
-
         String ans = chatModel.call(message);
         callCnt.remove(userId);
+
         return "内容由 AI 生成，请仔细甄别\n" + ans;
     }
 }
