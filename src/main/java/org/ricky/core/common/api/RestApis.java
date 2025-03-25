@@ -29,4 +29,10 @@ public class RestApis {
         String url = "https://image.anosu.top/pixiv/json?keyword=" + keyword;
         return restTemplate.getForObject(url, String.class);
     }
+
+    public String getRandomPicByKeyword2(String keyword) {
+        String url = "https://image.anosu.top/pixiv/json?r18=1&keyword=" + keyword;
+        return restTemplate.getForObject(url, String.class);
+    }
+
 }

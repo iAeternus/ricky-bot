@@ -11,4 +11,6 @@ import java.util.List;
  */
 public interface PixivService {
     List<String> randomPic(String keyword);
+
+    String randomPic2(String keyword);
 }

@@ -64,6 +64,35 @@ public class PixivServiceImpl implements PixivService {
         return urls;
     }
 
+    @Override
+    public String randomPic2(String keyword) {
+        if (pluginCallCounter.isCalling()) {
+            sendTextGroupMsg(PLEASE_DO_NOT_REPEAT_MSG);
+            return "";
+        }
+
+        sendTextGroupMsg(String.format(PLEASE_WAIT_FOR_SEARCH_MSG, PIXIV));
+
+        pluginCallCounter.incrementCnt();
+        String json = restApis.getRandomPicByKeyword2(keyword);
+
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<JsonUrl>>() {
+        }.getType();
+        List<JsonUrl> objs = gson.fromJson(json, type);
+
+        List<String> urls = objs.stream()
+                .map(obj -> obj.url)
+                .collect(toImmutableList());
+
+        if (isEmpty(urls)) {
+            sendTextGroupMsg(RANDOM_PIC_NOT_FOUND_MSG);
+            return "";
+        }
+
+        return urls.get(0);
+    }
+
     @Data
     private static class JsonUrl {
         private String url;
