@@ -80,7 +80,7 @@ public class BotUtil {
         if (!message.startsWith(cmd)) {
             throw new MyException(CMD_NOT_FOUND, CMD_NOT_FOUND_MSG);
         }
-        return message.substring(cmd.length());
+        return message.substring(cmd.length()).trim();
     }
 
     public static boolean isValidCmd(String message) {
