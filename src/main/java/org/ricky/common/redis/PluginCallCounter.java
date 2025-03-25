@@ -13,12 +13,12 @@ import static org.ricky.common.exception.ErrorCodeEnum.REDIS_ERROR;
  * @author Ricky
  * @version 1.0
  * @date 2025/3/25
- * @className ModelCallCounter
+ * @className PluginCallCounter
  * @desc 模型调用计数器
  */
 @Component
 @RequiredArgsConstructor
-public class ModelCallCounter {
+public class PluginCallCounter {
 
     private final StringRedisTemplate stringRedisTemplate;
 

@@ -14,5 +14,7 @@ public interface ConfigConstant {
     String DEEP_SEEK_MODEL = "deepseek";
     String TONGYI_MODEL = "通义大模型";
 
+    String PIXIV = "p站查询";
+
 
 }

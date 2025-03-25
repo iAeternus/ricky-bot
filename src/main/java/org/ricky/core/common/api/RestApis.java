@@ -1,10 +1,17 @@
 package org.ricky.core.common.api;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import lombok.RequiredArgsConstructor;
 import org.ricky.core.weather.domain.WeatherResponse;
 import org.ricky.core.weather.config.AmapProperties;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+
+import java.lang.reflect.Type;
+import java.util.List;
 
 /**
  * @author Ricky
@@ -25,4 +32,8 @@ public class RestApis {
         return restTemplate.getForObject(url, WeatherResponse.class);
     }
 
+    public String getRandomPicByKeyword(String keyword) {
+        String url = "https://image.anosu.top/pixiv/json?keyword=" + keyword;
+        return restTemplate.getForObject(url, String.class);
+    }
 }

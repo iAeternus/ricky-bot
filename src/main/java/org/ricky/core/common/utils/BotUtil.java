@@ -3,10 +3,14 @@ package org.ricky.core.common.utils;
 import com.mikuac.shiro.common.utils.MsgUtils;
 import com.mikuac.shiro.core.Bot;
 import com.mikuac.shiro.dto.event.message.GroupMessageEvent;
+import org.ricky.common.exception.MyException;
 import org.ricky.core.common.context.ThreadLocalContext;
 
 import java.util.List;
 
+import static org.ricky.common.constants.CmdConstants.ALL_CMD;
+import static org.ricky.common.constants.ErrorMsgConstants.CMD_NOT_FOUND_MSG;
+import static org.ricky.common.exception.ErrorCodeEnum.CMD_NOT_FOUND;
 import static org.ricky.core.common.utils.ValidationUtil.isBlank;
 import static org.ricky.core.common.utils.ValidationUtil.isEmpty;
 
@@ -23,7 +27,7 @@ public class BotUtil {
      * 发送文本群聊信息
      */
     public static void sendTextGroupMsg(String msg) {
-        if(isBlank(msg)) {
+        if (isBlank(msg)) {
             return;
         }
 
@@ -41,7 +45,7 @@ public class BotUtil {
      * 发送图片群聊信息
      */
     public static void sendImgGroupMsg(List<String> imgUrls) {
-        if(isEmpty(imgUrls)) {
+        if (isEmpty(imgUrls)) {
             return;
         }
 
@@ -53,6 +57,37 @@ public class BotUtil {
                 .img(imgUrls.get(0))
                 .build();
         bot.sendGroupMsg(evt.getGroupId(), sendMsg, false);
+    }
+
+    public static void sendImgGroupMsg(String url) {
+        if (isBlank(url)) {
+            return;
+        }
+
+        Bot bot = ThreadLocalContext.getContext().getBot();
+        GroupMessageEvent evt = ThreadLocalContext.getContext().getEvt();
+
+        String sendMsg = MsgUtils.builder()
+                .at(evt.getUserId())
+                .img(url)
+                .build();
+        bot.sendGroupMsg(evt.getGroupId(), sendMsg, false);
+    }
+
+    public static String parseArgs(String cmd, String message) {
+        if(!message.startsWith(cmd)) {
+            throw new MyException(CMD_NOT_FOUND, CMD_NOT_FOUND_MSG);
+        }
+        return message.substring(cmd.length());
+    }
+
+    public static boolean isValidCmd(String message) {
+        for (String s : ALL_CMD) {
+            if (message.startsWith(s)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

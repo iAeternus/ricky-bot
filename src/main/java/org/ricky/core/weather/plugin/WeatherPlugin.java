@@ -18,6 +18,8 @@ import static com.mikuac.shiro.core.BotPlugin.MESSAGE_IGNORE;
 import static org.ricky.common.constants.CmdConstants.WEATHER_CMD;
 import static org.ricky.common.constants.ErrorMsgConstants.INVALID_CMD_ARGS_MSG;
 import static org.ricky.common.exception.ErrorCodeEnum.INVALID_CMD_ARGS;
+import static org.ricky.core.common.utils.BotUtil.parseArgs;
+import static org.ricky.core.common.utils.ValidationUtil.isBlank;
 
 /**
  * @author Ricky
@@ -38,7 +40,10 @@ public class WeatherPlugin {
     @MessageHandlerFilter(startWith = WEATHER_CMD)
     @HandleException(handler = BotExceptionHandler.class)
     public int handleWeather(Bot bot, GroupMessageEvent evt) {
-        String city = parseArgs(evt.getMessage());
+        String city = parseArgs(WEATHER_CMD, evt.getMessage());
+        if (isBlank(city)) {
+            throw new MyException(INVALID_CMD_ARGS, INVALID_CMD_ARGS_MSG);
+        }
         log.info("查询城市：{}", city);
 
         String msg = weatherService.getCurrentWeather(city);
@@ -50,14 +55,6 @@ public class WeatherPlugin {
         bot.sendGroupMsg(evt.getGroupId(), sendMsg, false);
 
         return MESSAGE_IGNORE;
-    }
-
-    private String parseArgs(String message) {
-        String[] split = message.split(" ");
-        if (split.length != 2) {
-            throw new MyException(INVALID_CMD_ARGS, INVALID_CMD_ARGS_MSG);
-        }
-        return split[1];
     }
 
 }

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import static com.mikuac.shiro.core.BotPlugin.MESSAGE_IGNORE;
 import static org.ricky.common.constants.CmdConstants.CALC_CMD;
+import static org.ricky.core.common.utils.BotUtil.parseArgs;
 import static org.ricky.core.common.utils.ValidationUtil.isBlank;
 
 /**
@@ -36,7 +37,7 @@ public class CalcExprPlugin {
     @MessageHandlerFilter(startWith = CALC_CMD)
     @HandleException(handler = BotExceptionHandler.class)
     public int calcExpr(Bot bot, GroupMessageEvent evt) {
-        String expr = parseArgs(evt.getMessage());
+        String expr = parseArgs(CALC_CMD, evt.getMessage());
         if (isBlank(expr)) {
             return MESSAGE_IGNORE;
         }
@@ -50,10 +51,6 @@ public class CalcExprPlugin {
         bot.sendGroupMsg(evt.getGroupId(), sendMsg, false);
 
         return MESSAGE_IGNORE;
-    }
-
-    private String parseArgs(String message) {
-        return message.substring(CALC_CMD.length());
     }
 
 }

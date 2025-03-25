@@ -22,4 +22,6 @@ public interface ErrorMsgConstants {
     String MALFORMED_EXPRESSION_MSG = "表达式不正确！";
     String DIVIDED_BY_ZERO_MSG = "除零错误！";
     String UNKNOWN_OPERATOR_MSG = "未知的操作符！";
+    String RANDOM_PIC_NOT_FOUND_MSG = "找不到你想查询的关键词哦！";
+    String CMD_NOT_FOUND_MSG = "找不到这个命令哦！请参考菜单 #menu";
 }

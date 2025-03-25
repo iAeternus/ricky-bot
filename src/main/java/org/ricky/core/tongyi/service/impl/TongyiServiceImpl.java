@@ -6,11 +6,9 @@ import com.alibaba.dashscope.aigc.imagesynthesis.ImageSynthesisResult;
 import com.alibaba.dashscope.exception.ApiException;
 import com.alibaba.dashscope.exception.NoApiKeyException;
 import com.alibaba.dashscope.utils.JsonUtils;
-import com.mikuac.shiro.dto.event.message.GroupMessageEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.ricky.common.redis.ModelCallCounter;
-import org.ricky.core.common.context.ThreadLocalContext;
+import org.ricky.common.redis.PluginCallCounter;
 import org.ricky.core.tongyi.config.TongyiProperties;
 import org.ricky.core.tongyi.service.TongYiService;
 import org.springframework.stereotype.Service;
@@ -21,7 +19,7 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import static java.util.Collections.emptyList;
 import static org.ricky.common.constants.ConfigConstant.TONGYI_MODEL;
 import static org.ricky.common.constants.SuccessMsgConstants.PLEASE_DO_NOT_REPEAT_MSG;
-import static org.ricky.common.constants.SuccessMsgConstants.PLEASE_WAIT_MSG;
+import static org.ricky.common.constants.SuccessMsgConstants.PLEASE_WAIT_FOR_GEN_MSG;
 import static org.ricky.core.common.utils.BotUtil.sendTextGroupMsg;
 
 /**
@@ -37,24 +35,21 @@ import static org.ricky.core.common.utils.BotUtil.sendTextGroupMsg;
 public class TongyiServiceImpl implements TongYiService {
 
     private final TongyiProperties tongYiProperties;
-    private final ModelCallCounter modelCallCounter;
+    private final PluginCallCounter pluginCallCounter;
 
     private static final String URL = "url";
 
     @Override
     public List<String> text2image(String prompt) {
-        if (modelCallCounter.isCalling()) {
+        if (pluginCallCounter.isCalling()) {
             sendTextGroupMsg(PLEASE_DO_NOT_REPEAT_MSG);
             return emptyList();
         }
 
-        sendTextGroupMsg(String.format(PLEASE_WAIT_MSG, TONGYI_MODEL));
+        sendTextGroupMsg(String.format(PLEASE_WAIT_FOR_GEN_MSG, TONGYI_MODEL));
 
-        modelCallCounter.incrementCnt();
-        List<String> res = asyncCall(prompt);
-        modelCallCounter.decrementCnt();
-
-        return res;
+        pluginCallCounter.incrementCnt();
+        return asyncCall(prompt);
     }
 
     private List<String> asyncCall(String prompt) {

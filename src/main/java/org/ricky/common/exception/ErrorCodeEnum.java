@@ -44,6 +44,7 @@ public enum ErrorCodeEnum {
     DOMAIN_EVENT_NOT_FOUND(404),
     ANNOTATION_NOT_FOUND(404),
     CITY_NOT_FOUND(404),
+    CMD_NOT_FOUND(404),
 
     // 409
     PROCESS_ERROR(409),

@@ -12,3 +12,7 @@ shiro:
     server:
       enable: true
       url: "/xm"
+
+my:
+  version: 2.0.0
+  author: Ricky
