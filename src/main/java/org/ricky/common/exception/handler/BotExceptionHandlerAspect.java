@@ -9,15 +9,20 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.ricky.common.exception.MyError;
 import org.ricky.common.exception.MyException;
+import org.ricky.common.redis.ModelCallCounter;
 import org.ricky.common.spring.SpringApplicationContext;
 import org.ricky.common.tracing.TracingService;
+import org.ricky.core.common.utils.BotUtil;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
+import java.net.SocketTimeoutException;
 import java.util.Map;
 
+import static com.mikuac.shiro.core.BotPlugin.MESSAGE_IGNORE;
 import static org.ricky.common.exception.ErrorCodeEnum.*;
+import static org.ricky.core.common.utils.BotUtil.sendTextGroupMsg;
 import static org.ricky.core.common.utils.ValidationUtil.notNull;
 
 /**
@@ -35,6 +40,8 @@ import static org.ricky.core.common.utils.ValidationUtil.notNull;
 public class BotExceptionHandlerAspect {
 
     private final TracingService tracingService;
+    private final ModelCallCounter modelCallCounter;
+
 
     @Pointcut("@annotation(org.ricky.common.exception.handler.HandleException)")
     public void pointcut() {
@@ -45,8 +52,14 @@ public class BotExceptionHandlerAspect {
         try {
             return joinPoint.proceed();
         } catch (MyException ex) {
+            modelCallCounter.decrementCnt();
             return handleBotException(joinPoint, ex);
+        } catch (SocketTimeoutException ex) {
+            modelCallCounter.decrementCnt();
+            sendTextGroupMsg("服务器繁忙，请稍候再试！");
+            return MESSAGE_IGNORE;
         } catch (Exception ex) {
+            modelCallCounter.decrementCnt();
             log.error("不支持的异常类型：{}", ex.getClass());
             throw new MyException(UNSUPPORTED_EXCEPTION_TYPE, "不支持的异常类型", Map.of("exceptionClass", ex.getClass()));
         }

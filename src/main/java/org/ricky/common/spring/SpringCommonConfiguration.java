@@ -1,5 +1,6 @@
 package org.ricky.common.spring;
 
+import org.ricky.core.common.utils.MyObjectMapper;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +24,11 @@ public class SpringCommonConfiguration {
                 .setConnectTimeout(ofSeconds(30))
                 .setReadTimeout(ofSeconds(30))
                 .build();
+    }
+
+    @Bean
+    public MyObjectMapper objectMapper() {
+        return new MyObjectMapper();
     }
 
 }

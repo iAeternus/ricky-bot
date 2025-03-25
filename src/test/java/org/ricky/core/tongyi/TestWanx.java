@@ -42,7 +42,7 @@ public class TestWanx {
                         .model("wanx2.1-t2i-turbo")
                         .prompt(prompt)
                         .n(1)
-                        .size("1024*1024")
+                        .size("1440*1440")
                         .build();
 
         ImageSynthesis imageSynthesis = new ImageSynthesis();

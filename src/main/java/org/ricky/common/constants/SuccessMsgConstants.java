@@ -40,4 +40,6 @@ public interface SuccessMsgConstants {
 
     String PLEASE_WAIT_MSG = "[%s] 正在生成中，请耐心等待！";
 
+    String PLEASE_DO_NOT_REPEAT_MSG = "请勿重复提问！";
+
 }

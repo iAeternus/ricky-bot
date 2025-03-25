@@ -9,20 +9,18 @@ import com.alibaba.dashscope.utils.JsonUtils;
 import com.mikuac.shiro.dto.event.message.GroupMessageEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.ricky.common.redis.ModelCallCounter;
 import org.ricky.core.common.context.ThreadLocalContext;
-import org.ricky.core.common.utils.BotUtil;
-import org.ricky.core.tongyi.config.TongYiProperties;
+import org.ricky.core.tongyi.config.TongyiProperties;
 import org.ricky.core.tongyi.service.TongYiService;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static java.util.Collections.emptyList;
+import static org.ricky.common.constants.ConfigConstant.TONGYI_MODEL;
+import static org.ricky.common.constants.SuccessMsgConstants.PLEASE_DO_NOT_REPEAT_MSG;
 import static org.ricky.common.constants.SuccessMsgConstants.PLEASE_WAIT_MSG;
 import static org.ricky.core.common.utils.BotUtil.sendTextGroupMsg;
 
@@ -30,35 +28,31 @@ import static org.ricky.core.common.utils.BotUtil.sendTextGroupMsg;
  * @author Ricky
  * @version 1.0
  * @date 2025/3/25
- * @className TongYiServiceImpl
+ * @className TongyiServiceImpl
  * @desc
  */
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class TongYiServiceImpl implements TongYiService {
+public class TongyiServiceImpl implements TongYiService {
 
-    private final TongYiProperties tongYiProperties;
+    private final TongyiProperties tongYiProperties;
+    private final ModelCallCounter modelCallCounter;
 
     private static final String URL = "url";
 
-    private final Map<Long, Integer> callCnt = new ConcurrentHashMap<>();
-
     @Override
     public List<String> text2image(String prompt) {
-        GroupMessageEvent evt = ThreadLocalContext.getContext().getEvt();
-        Long userId = evt.getUserId();
-
-        if (callCnt.containsKey(userId)) {
-            BotUtil.sendTextGroupMsg("请勿重复提问！");
+        if (modelCallCounter.isCalling()) {
+            sendTextGroupMsg(PLEASE_DO_NOT_REPEAT_MSG);
             return emptyList();
         }
 
-        sendTextGroupMsg(String.format(PLEASE_WAIT_MSG, "通义大模型"));
+        sendTextGroupMsg(String.format(PLEASE_WAIT_MSG, TONGYI_MODEL));
 
-        callCnt.put(userId, 1);
+        modelCallCounter.incrementCnt();
         List<String> res = asyncCall(prompt);
-        callCnt.remove(userId);
+        modelCallCounter.decrementCnt();
 
         return res;
     }

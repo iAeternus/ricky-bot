@@ -57,6 +57,7 @@ public enum ErrorCodeEnum {
     MALFORMED_EXPRESSION(409),
     DIVIDED_BY_ZERO(409),
     UNKNOWN_OPERATOR(409),
+    REDIS_ERROR(409),
 
     // 426
 

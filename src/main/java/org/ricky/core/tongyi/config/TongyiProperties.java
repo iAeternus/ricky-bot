@@ -8,13 +8,13 @@ import org.springframework.stereotype.Component;
  * @author Ricky
  * @version 1.0
  * @date 2025/3/25
- * @className TongYiProperties
+ * @className TongyiProperties
  * @desc 通义大模型配置
  */
 @Data
 @Component
 @ConfigurationProperties(prefix = "my.tongyi")
-public class TongYiProperties {
+public class TongyiProperties {
 
     /**
      * api key
