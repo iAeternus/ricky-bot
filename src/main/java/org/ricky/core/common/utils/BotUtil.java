@@ -6,8 +6,10 @@ import com.mikuac.shiro.dto.event.message.GroupMessageEvent;
 import org.ricky.common.exception.MyException;
 import org.ricky.core.common.context.ThreadLocalContext;
 
+import java.util.Arrays;
 import java.util.List;
 
+import static java.util.Arrays.stream;
 import static org.ricky.common.constants.CmdConstants.ALL_CMD;
 import static org.ricky.common.constants.ErrorMsgConstants.CMD_NOT_FOUND_MSG;
 import static org.ricky.common.exception.ErrorCodeEnum.CMD_NOT_FOUND;
@@ -82,12 +84,7 @@ public class BotUtil {
     }
 
     public static boolean isValidCmd(String message) {
-        for (String s : ALL_CMD) {
-            if (message.startsWith(s)) {
-                return true;
-            }
-        }
-        return false;
+        return stream(ALL_CMD).anyMatch(message::startsWith);
     }
 
 }
