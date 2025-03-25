@@ -16,7 +16,6 @@ import static org.ricky.common.constants.CmdConstants.ROOT_CMD;
 import static org.ricky.common.constants.ErrorMsgConstants.CMD_NOT_FOUND_MSG;
 import static org.ricky.common.exception.ErrorCodeEnum.CMD_NOT_FOUND;
 import static org.ricky.core.common.utils.BotUtil.isValidCmd;
-import static org.ricky.core.common.utils.BotUtil.parseArgs;
 
 /**
  * @author Ricky
@@ -34,7 +33,7 @@ public class CheckCmdPlugin {
     @MessageHandlerFilter(startWith = ROOT_CMD)
     @HandleException(handler = BotExceptionHandler.class)
     public int checkCmd(Bot bot, GroupMessageEvent evt) {
-        if(!isValidCmd(evt.getMessage())) {
+        if (!isValidCmd(evt.getMessage())) {
             throw new MyException(CMD_NOT_FOUND, CMD_NOT_FOUND_MSG);
         }
         return MESSAGE_IGNORE;

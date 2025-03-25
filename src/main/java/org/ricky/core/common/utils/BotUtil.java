@@ -75,7 +75,7 @@ public class BotUtil {
     }
 
     public static String parseArgs(String cmd, String message) {
-        if(!message.startsWith(cmd)) {
+        if (!message.startsWith(cmd)) {
             throw new MyException(CMD_NOT_FOUND, CMD_NOT_FOUND_MSG);
         }
         return message.substring(cmd.length());

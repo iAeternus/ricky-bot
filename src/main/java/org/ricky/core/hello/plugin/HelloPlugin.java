@@ -10,13 +10,8 @@ import org.ricky.common.exception.handler.HandleException;
 import org.ricky.common.exception.handler.impl.BotExceptionHandler;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-
 import static com.mikuac.shiro.core.BotPlugin.MESSAGE_IGNORE;
 import static org.ricky.common.constants.CmdConstants.HELLO_CMD;
-import static org.ricky.common.constants.CmdConstants.ROOT_CMD;
-import static org.ricky.common.constants.ErrorMsgConstants.CMD_NOT_FOUND_MSG;
-import static org.ricky.core.common.utils.BotUtil.sendTextGroupMsg;
 
 /**
  * @author Ricky

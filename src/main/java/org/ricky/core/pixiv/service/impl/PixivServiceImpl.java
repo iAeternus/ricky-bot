@@ -15,9 +15,9 @@ import java.util.List;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static java.util.Collections.emptyList;
 import static org.ricky.common.constants.ConfigConstant.PIXIV;
-import static org.ricky.common.constants.ConfigConstant.TONGYI_MODEL;
 import static org.ricky.common.constants.ErrorMsgConstants.RANDOM_PIC_NOT_FOUND_MSG;
-import static org.ricky.common.constants.SuccessMsgConstants.*;
+import static org.ricky.common.constants.SuccessMsgConstants.PLEASE_DO_NOT_REPEAT_MSG;
+import static org.ricky.common.constants.SuccessMsgConstants.PLEASE_WAIT_FOR_SEARCH_MSG;
 import static org.ricky.core.common.utils.BotUtil.sendTextGroupMsg;
 import static org.ricky.core.common.utils.ValidationUtil.isEmpty;
 
@@ -56,7 +56,7 @@ public class PixivServiceImpl implements PixivService {
                 .map(obj -> obj.url)
                 .collect(toImmutableList());
 
-        if(isEmpty(urls)) {
+        if (isEmpty(urls)) {
             sendTextGroupMsg(RANDOM_PIC_NOT_FOUND_MSG);
             return emptyList();
         }

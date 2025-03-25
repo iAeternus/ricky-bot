@@ -19,7 +19,6 @@ import static com.mikuac.shiro.core.BotPlugin.MESSAGE_IGNORE;
 import static org.ricky.common.constants.CmdConstants.RANDOM_PIC_CMD;
 import static org.ricky.core.common.utils.BotUtil.parseArgs;
 import static org.ricky.core.common.utils.BotUtil.sendImgGroupMsg;
-import static org.ricky.core.common.utils.ValidationUtil.isEmpty;
 
 /**
  * @author Ricky
