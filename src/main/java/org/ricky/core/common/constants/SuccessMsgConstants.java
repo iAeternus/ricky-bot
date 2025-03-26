@@ -36,6 +36,10 @@ public interface SuccessMsgConstants {
                  支持加/减/乘/除/取模/求幂/取负操作
                - 原神圣遗物评分计算器：`#cg [角色] [佩戴位置]`（待开发）
                - 绝区零驱动盘评分计算器：`#cz [角色] [驱动盘号]`（待开发）
+               - 计算不定积分：`#积分 #[function] #[variable]`
+               - 计算定积分：`#积分 #[function] #[variable] #[积分下限] #[积分上限]`
+               - 计算导数：`#导数 #[function] #[variable]`
+               - 计算极限：`#极限 #[function] #[variable] #[point]`
 
             ## 使用说明
             - 直接输入对应指令使用功能

@@ -21,5 +21,8 @@ public interface CmdConstants {
     String RANDOM_PIC_CMD = "#rpic";
     String RANDOM_PIC_CMD2 = "#secr";
     String TRANSLATION_CMD = "#trans";
+    String INTEGRAL_CMD = "#积分";
+    String DERIVATIVE_CMD = "#导数";
+    String LIMIT_CMD = "#极限";
 
 }
