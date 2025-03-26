@@ -16,5 +16,8 @@ public interface ConfigConstant {
 
     String PIXIV = "p站查询";
 
+    Long[] EXCLUDED_GROUP_IDS = new Long[] {
+        515119476L,
+    };
 
 }
