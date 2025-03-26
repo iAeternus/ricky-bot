@@ -23,9 +23,9 @@ public class PluginCallCounter {
     private final StringRedisTemplate stringRedisTemplate;
 
     /**
-     * 记录模型调用
+     * 记录调用
      */
-    public void incrementCnt() {
+    public synchronized void incrementCnt() {
         String key = buildKey();
         try {
             stringRedisTemplate.opsForValue().increment(key, 1);
@@ -35,9 +35,9 @@ public class PluginCallCounter {
     }
 
     /**
-     * 结束模型调用
+     * 结束调用
      */
-    public void decrementCnt() {
+    public synchronized void decrementCnt() {
         if (!isCalling()) {
             return;
         }
@@ -51,7 +51,7 @@ public class PluginCallCounter {
     }
 
     /**
-     * 判断模型是否正在被调用
+     * 判断是否正在被调用
      *
      * @return true 如果正在调用，false 否则
      */

@@ -8,6 +8,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.ricky.common.exception.MyException;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -19,9 +20,10 @@ import static org.ricky.common.exception.ErrorCodeEnum.INVALID_MEG_HANDLER_ARGS;
  * @version 1.0
  * @date 2025/3/21
  * @className SetContextAspect
- * @desc
+ * @desc 设置上下文切面
  */
 @Aspect
+@Order(1)
 @Component
 public class SetContextAspect {
 

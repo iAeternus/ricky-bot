@@ -21,7 +21,7 @@ import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKN
 import static com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS;
 import static java.time.ZoneId.of;
 import static java.util.TimeZone.getTimeZone;
-import static org.ricky.common.constants.ConfigConstant.CHINA_TIME_ZONE;
+import static org.ricky.core.common.constants.ConfigConstant.CHINA_TIME_ZONE;
 import static org.ricky.core.common.utils.ValidationUtil.nullIfBlank;
 
 /**

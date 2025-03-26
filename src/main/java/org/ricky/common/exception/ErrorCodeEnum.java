@@ -59,6 +59,8 @@ public enum ErrorCodeEnum {
     DIVIDED_BY_ZERO(409),
     UNKNOWN_OPERATOR(409),
     REDIS_ERROR(409),
+    PLEASE_DO_NOT_REPEAT(409),
+    NOT_SUPPORTED_THIS_SERVER(409),
 
     // 426
 

@@ -1,8 +1,8 @@
 package org.ricky.core.common.api;
 
 import lombok.RequiredArgsConstructor;
-import org.ricky.core.weather.config.AmapProperties;
-import org.ricky.core.weather.domain.WeatherResponse;
+import org.ricky.core.utilitytool.config.AmapProperties;
+import org.ricky.core.utilitytool.domain.WeatherResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
