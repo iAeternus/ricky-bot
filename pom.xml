@@ -151,6 +151,11 @@
             <artifactId>httpclient5</artifactId>
             <version>5.2.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.apifan.common</groupId>
+            <artifactId>common-random</artifactId>
+            <version>1.0.18</version>
+        </dependency>
 
         <!--Lombok-->
         <dependency>

@@ -60,7 +60,8 @@ public class BotExceptionHandlerAspect {
         } catch (Exception ex) {
             pluginCallCounter.decrementCnt();
             log.error("不支持的异常类型：{}", ex.getClass());
-            throw new MyException(UNSUPPORTED_EXCEPTION_TYPE, "不支持的异常类型", Map.of("exceptionClass", ex.getClass()));
+            throw new MyException(UNSUPPORTED_EXCEPTION_TYPE, "不支持的异常类型",
+                    "exceptionClass", ex.getClass(), "exception", ex);
         }
     }
 

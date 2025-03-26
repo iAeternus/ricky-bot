@@ -30,3 +30,9 @@ my:
     api-key: your-amap-apikey
   tongyi:
     api-key: your-tongyi-apikey
+  pixiv:
+    enable: false
+    secret-key: your-secret-key
+  baidu:
+    app-id: your-baidu-appid
+    secret-key: your-baidu-secret-key

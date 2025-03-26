@@ -10,15 +10,20 @@ import lombok.extern.slf4j.Slf4j;
 import org.ricky.common.exception.MyException;
 import org.ricky.common.exception.handler.HandleException;
 import org.ricky.common.exception.handler.impl.BotExceptionHandler;
+import org.ricky.core.utilitytool.domain.TranslationInfo;
 import org.ricky.core.utilitytool.service.UtilityToolService;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+import static cn.hutool.http.HtmlUtil.unescape;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.mikuac.shiro.core.BotPlugin.MESSAGE_IGNORE;
+import static java.util.Arrays.stream;
 import static org.ricky.common.exception.ErrorCodeEnum.INVALID_CMD_ARGS;
 import static org.ricky.core.common.constants.CmdConstants.*;
 import static org.ricky.core.common.constants.ErrorMsgConstants.INVALID_CMD_ARGS_MSG;
+import static org.ricky.core.common.constants.SuccessMsgConstants.LANGUAGE_LIST;
 import static org.ricky.core.common.utils.BotUtil.*;
 import static org.ricky.core.common.utils.ValidationUtil.isBlank;
 
@@ -104,6 +109,27 @@ public class UtilityToolPlugin {
 
         List<String> urls = utilityToolService.randomPic2(keyword);
         sendTextGroupMsg(urls.get(0));
+
+        return MESSAGE_IGNORE;
+    }
+
+    @GroupMessageHandler
+    @MessageHandlerFilter(startWith = TRANSLATION_CMD)
+    @HandleException(handler = BotExceptionHandler.class)
+    public int translation(Bot bot, GroupMessageEvent evt) {
+        String msg = parseArgs(TRANSLATION_CMD, evt.getMessage());
+        if (isBlank(msg)) {
+            sendTextGroupMsg(LANGUAGE_LIST);
+            return MESSAGE_IGNORE;
+        }
+
+        List<String> args = stream(unescape(msg).split(ROOT_CMD))
+                .map(String::trim)
+                .filter(arg -> !arg.isEmpty())
+                .collect(toImmutableList());
+
+        String res = utilityToolService.translation(TranslationInfo.of(args));
+        sendTextGroupMsg(res);
 
         return MESSAGE_IGNORE;
     }

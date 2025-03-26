@@ -9,6 +9,7 @@ package org.ricky.core.common.constants;
  */
 public interface CmdConstants {
 
+    String ROOT_CMD = "#";
     String HELLO_CMD = "#hello";
     String MENU_CMD = "#menu";
     String WEATHER_CMD = "#天气";
@@ -19,6 +20,6 @@ public interface CmdConstants {
     String TONG_YI_CMD = "#ty";
     String RANDOM_PIC_CMD = "#rpic";
     String RANDOM_PIC_CMD2 = "#secr";
-    String TRANSLATION_CMD = "#tran";
+    String TRANSLATION_CMD = "#trans";
 
 }

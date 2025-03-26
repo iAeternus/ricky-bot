@@ -24,4 +24,8 @@ public interface ErrorMsgConstants {
     String UNKNOWN_OPERATOR_MSG = "未知的操作符！";
     String RANDOM_PIC_NOT_FOUND_MSG = "找不到你想查询的关键词哦！";
     String CMD_NOT_FOUND_MSG = "找不到这个命令哦！请参考菜单 #menu";
+    String API_CALL_FAILED_MSG = "api调用失败！";
+    String LANGUAGE_NOT_SUPPORTED = "找不到这个语言哦！";
+    String NO_RESULT_MSG = "没有任何结果呢。";
+
 }

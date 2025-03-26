@@ -61,6 +61,8 @@ public enum ErrorCodeEnum {
     REDIS_ERROR(409),
     PLEASE_DO_NOT_REPEAT(409),
     NOT_SUPPORTED_THIS_SERVER(409),
+    API_CALL_FAILED(409),
+    NO_RESULT(409),
 
     // 426
 

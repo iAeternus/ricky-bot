@@ -27,8 +27,9 @@ public interface SuccessMsgConstants {
                - deepseek聊天：`#ds [消息]`
                - 通义万相文生图：`#ty [文本]`
                - 随机涩图：`#rpic` 或 `#rpic [keyword]`
-               - 文本翻译：`#tran #[文本] #[目标语言]`（默认中英互翻）
-               - 目标语言列表：`#tran #lang`
+               - 文本翻译：`#trans #[文本] #[to]`（自动检测源语言）
+               - 文本翻译2： `#trans #[文本] #[from] #[to]`
+               - 目标语言列表：`#trans`
 
             4. 🔢 计算工具
                - 计算表达式：`#expr [表达式]`
@@ -49,5 +50,19 @@ public interface SuccessMsgConstants {
     String GENERATED_BY_AI_MSG = "内容由 AI 生成，请仔细甄别\n";
 
     String PLEASE_DO_NOT_REPEAT_MSG = "请勿重复调用！";
+
+    String LANGUAGE_LIST = """
+            ## 语言列表
+            中文 zh      文言文 wyw     阿拉伯语 ara
+            英语 en      希腊语 el      西班牙语 spa
+            粤语 yue     荷兰语 nl      葡萄牙语 pt
+            韩语 kor     波兰语 pl      意大利语 it
+            日语 jp      丹麦语 dan     匈牙利语 hu
+            法语 fra     越南语 vie     繁体中文 cht
+            泰语 th      芬兰语 fin     保加利亚语 bul
+            俄语 ru      捷克语 cs      爱沙尼亚语 est
+            德语 de      瑞典语 swe     罗马尼亚语 rom
+            斯洛文尼亚语 slo
+            """;
 
 }

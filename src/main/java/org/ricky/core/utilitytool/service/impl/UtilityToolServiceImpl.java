@@ -6,6 +6,8 @@ import com.alibaba.dashscope.aigc.imagesynthesis.ImageSynthesisResult;
 import com.alibaba.dashscope.exception.ApiException;
 import com.alibaba.dashscope.exception.NoApiKeyException;
 import com.alibaba.dashscope.utils.JsonUtils;
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import lombok.Data;
@@ -16,6 +18,7 @@ import org.ricky.core.common.api.RestApis;
 import org.ricky.core.utilitytool.config.PixivProperties;
 import org.ricky.core.utilitytool.config.TongyiProperties;
 import org.ricky.core.utilitytool.domain.LiveWeather;
+import org.ricky.core.utilitytool.domain.TranslationInfo;
 import org.ricky.core.utilitytool.domain.WeatherResponse;
 import org.ricky.core.utilitytool.service.UtilityToolService;
 import org.springframework.ai.chat.model.ChatModel;
@@ -23,6 +26,10 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static java.util.Collections.emptyList;
@@ -153,6 +160,35 @@ public class UtilityToolServiceImpl implements UtilityToolService {
                 })
                 .collect(toImmutableList());
     }
+
+    @Override
+    public String translation(TranslationInfo info) {
+        JSONObject json = restApis.getTranslation(info.getQ(), info.getFrom(), info.getTo());
+        checkTranslationApiCall(json);
+        
+        return Optional.ofNullable(json.getJSONArray("trans_result"))
+                .filter(arr -> !arr.isEmpty())
+                .map(transResults -> IntStream.range(0, transResults.size())
+                        .mapToObj(i -> transResults.getJSONObject(i).getString("dst"))
+                        .collect(Collectors.joining(" "))
+                        .trim())
+                .orElseThrow(() -> new MyException(NO_RESULT, NO_RESULT_MSG));
+    }
+
+    private void checkTranslationApiCall(JSONObject response) {
+        if (!response.containsKey("error_code")) return;
+
+        final String errorCode = response.getString("error_code");
+        final String errorMsg = response.getString("error_msg");
+
+        if ("58001".equals(errorCode)) {
+            throw new MyException(API_CALL_FAILED, LANGUAGE_NOT_SUPPORTED,
+                    "error_code", errorCode, "error_msg", errorMsg);
+        }
+        throw new MyException(API_CALL_FAILED, API_CALL_FAILED_MSG,
+                "error_code", errorCode, "error_msg", errorMsg);
+    }
+
 
     private List<String> asyncCall(String prompt) {
         String taskId = createAsyncTask(prompt);

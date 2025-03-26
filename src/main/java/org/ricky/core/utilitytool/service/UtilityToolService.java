@@ -1,5 +1,7 @@
 package org.ricky.core.utilitytool.service;
 
+import org.ricky.core.utilitytool.domain.TranslationInfo;
+
 import java.util.List;
 
 /**
@@ -20,4 +22,6 @@ public interface UtilityToolService {
     List<String> randomPic(String keyword);
 
     List<String> randomPic2(String keyword);
+
+    String translation(TranslationInfo info);
 }
