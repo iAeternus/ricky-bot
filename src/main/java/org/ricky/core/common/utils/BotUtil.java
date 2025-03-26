@@ -8,8 +8,8 @@ import org.ricky.core.common.context.ThreadLocalContext;
 
 import java.util.List;
 
-import static org.ricky.core.common.constants.ErrorMsgConstants.CMD_NOT_FOUND_MSG;
 import static org.ricky.common.exception.ErrorCodeEnum.CMD_NOT_FOUND;
+import static org.ricky.core.common.constants.ErrorMsgConstants.CMD_NOT_FOUND_MSG;
 import static org.ricky.core.common.utils.ValidationUtil.isBlank;
 import static org.ricky.core.common.utils.ValidationUtil.isEmpty;
 

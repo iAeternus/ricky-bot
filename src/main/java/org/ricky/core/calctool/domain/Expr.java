@@ -6,8 +6,8 @@ import org.ricky.common.exception.MyException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.ricky.core.common.constants.ErrorMsgConstants.*;
 import static org.ricky.common.exception.ErrorCodeEnum.*;
+import static org.ricky.core.common.constants.ErrorMsgConstants.*;
 
 /**
  * @author Ricky

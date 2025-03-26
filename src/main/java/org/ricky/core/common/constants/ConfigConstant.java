@@ -18,8 +18,8 @@ public interface ConfigConstant {
 
     String URL = "url";
 
-    Long[] EXCLUDED_GROUP_IDS = new Long[] {
-        515119476L,
+    Long[] EXCLUDED_GROUP_IDS = new Long[]{
+            515119476L,
     };
 
 }

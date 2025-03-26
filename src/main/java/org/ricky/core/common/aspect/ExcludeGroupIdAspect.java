@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 
 import static com.mikuac.shiro.core.BotPlugin.MESSAGE_IGNORE;
 import static java.util.Arrays.stream;
-import static org.ricky.core.common.constants.ConfigConstant.EXCLUDED_GROUP_IDS;
 import static org.ricky.common.exception.ErrorCodeEnum.INVALID_MEG_HANDLER_ARGS;
+import static org.ricky.core.common.constants.ConfigConstant.EXCLUDED_GROUP_IDS;
 
 /**
  * @author Ricky

@@ -16,9 +16,9 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 import static com.mikuac.shiro.core.BotPlugin.MESSAGE_IGNORE;
+import static org.ricky.common.exception.ErrorCodeEnum.INVALID_CMD_ARGS;
 import static org.ricky.core.common.constants.CmdConstants.*;
 import static org.ricky.core.common.constants.ErrorMsgConstants.INVALID_CMD_ARGS_MSG;
-import static org.ricky.common.exception.ErrorCodeEnum.INVALID_CMD_ARGS;
 import static org.ricky.core.common.utils.BotUtil.*;
 import static org.ricky.core.common.utils.ValidationUtil.isBlank;
 
