@@ -13,6 +13,7 @@ import org.ricky.core.calctool.domain.DerivativeInfo;
 import org.ricky.core.calctool.domain.IntegralInfo;
 import org.ricky.core.calctool.domain.LimitInfo;
 import org.ricky.core.calctool.service.CalcToolService;
+import org.ricky.core.common.constants.SuccessMsgConstants;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -21,6 +22,7 @@ import java.util.List;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.mikuac.shiro.core.BotPlugin.MESSAGE_IGNORE;
 import static org.ricky.core.common.constants.CmdConstants.*;
+import static org.ricky.core.common.constants.SuccessMsgConstants.FUNCTION_HELP;
 import static org.ricky.core.common.utils.BotUtil.parseArgs;
 import static org.ricky.core.common.utils.BotUtil.sendTextGroupMsg;
 
@@ -96,6 +98,14 @@ public class CalcToolPlugin {
         String res = calcToolService.calcLimit(LimitInfo.of(args));
         sendTextGroupMsg(res);
 
+        return MESSAGE_IGNORE;
+    }
+
+    @GroupMessageHandler
+    @MessageHandlerFilter(startWith = FUNCTION_HELP_CMD)
+    @HandleException(handler = BotExceptionHandler.class)
+    public int functionHelp(Bot bot, GroupMessageEvent evt) {
+        sendTextGroupMsg(FUNCTION_HELP);
         return MESSAGE_IGNORE;
     }
 

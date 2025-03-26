@@ -26,7 +26,6 @@ public interface SuccessMsgConstants {
                - 查看天气：`#天气 [城市]`
                - deepseek聊天：`#ds [消息]`
                - 通义万相文生图：`#ty [文本]`
-               - 随机涩图：`#rpic` 或 `#rpic [keyword]`
                - 文本翻译：`#trans #[文本] #[to]`（自动检测源语言）
                - 文本翻译2： `#trans #[文本] #[from] #[to]`
                - 目标语言列表：`#trans`
@@ -40,6 +39,10 @@ public interface SuccessMsgConstants {
                - 计算定积分：`#积分 #[function] #[variable] #[积分下限] #[积分上限]`
                - 计算导数：`#导数 #[function] #[variable]`
                - 计算极限：`#极限 #[function] #[variable] #[point]`
+               - 函数格式：`#函数帮助`
+               
+            5. 😍 超有意思的小功能
+               - 随机涩图：`#rpic` 或 `#rpic [keyword]`
 
             ## 使用说明
             - 直接输入对应指令使用功能
@@ -67,6 +70,29 @@ public interface SuccessMsgConstants {
             俄语 ru      捷克语 cs      爱沙尼亚语 est
             德语 de      瑞典语 swe     罗马尼亚语 rom
             斯洛文尼亚语 slo
+            """;
+
+    String FUNCTION_HELP = """
+            ## 幂函数
+            Sqrt(x)：根号x
+            x^2：幂函数
+                        
+            ## 三角函数
+            Sin(x)：正弦函数
+            Cos(x)：余弦函数
+            Tan(x)：正切函数
+            ArcSin(x)：反正弦函数
+            ArcCos(x)：反余弦函数
+            ArcTan(x)：反正切函数
+                        
+            ## 指数和对数函数
+            Exp(x)：自然指数函数
+            Log(x)：自然对数函数
+            Log10(x)：以 10 为底的对数函数
+                        
+            ## 特殊函数
+            Gamma(x)：伽马函数
+            BesselJ(n, x)：贝塞尔函数
             """;
 
 }

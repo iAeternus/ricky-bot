@@ -90,30 +90,6 @@ public class UtilityToolPlugin {
     }
 
     @GroupMessageHandler
-    @MessageHandlerFilter(startWith = RANDOM_PIC_CMD)
-    @HandleException(handler = BotExceptionHandler.class)
-    public int randomPic(Bot bot, GroupMessageEvent evt) {
-        String keyword = parseArgs(RANDOM_PIC_CMD, evt.getMessage());
-
-        List<String> urls = utilityToolService.randomPic(keyword);
-        sendImgGroupMsg(urls);
-
-        return MESSAGE_IGNORE;
-    }
-
-    @GroupMessageHandler
-    @MessageHandlerFilter(startWith = RANDOM_PIC_CMD2)
-    @HandleException(handler = BotExceptionHandler.class)
-    public int randomPic2(Bot bot, GroupMessageEvent evt) {
-        String keyword = parseArgs(RANDOM_PIC_CMD2, evt.getMessage());
-
-        List<String> urls = utilityToolService.randomPic2(keyword);
-        sendTextGroupMsg(urls.get(0));
-
-        return MESSAGE_IGNORE;
-    }
-
-    @GroupMessageHandler
     @MessageHandlerFilter(startWith = TRANSLATION_CMD)
     @HandleException(handler = BotExceptionHandler.class)
     public int translation(Bot bot, GroupMessageEvent evt) {
@@ -123,7 +99,7 @@ public class UtilityToolPlugin {
             return MESSAGE_IGNORE;
         }
 
-        List<String> args = stream(unescape(msg).split(ROOT_CMD))
+        List<String> args = stream(msg.split(ROOT_CMD))
                 .map(String::trim)
                 .filter(arg -> !arg.isEmpty())
                 .collect(toImmutableList());

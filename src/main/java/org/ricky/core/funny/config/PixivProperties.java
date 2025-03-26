@@ -1,4 +1,4 @@
-package org.ricky.core.utilitytool.config;
+package org.ricky.core.funny.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

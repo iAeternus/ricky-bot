@@ -24,5 +24,6 @@ public interface CmdConstants {
     String INTEGRAL_CMD = "#积分";
     String DERIVATIVE_CMD = "#导数";
     String LIMIT_CMD = "#极限";
+    String FUNCTION_HELP_CMD = "#函数帮助";
 
 }

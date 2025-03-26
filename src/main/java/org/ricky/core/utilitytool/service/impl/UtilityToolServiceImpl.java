@@ -6,16 +6,11 @@ import com.alibaba.dashscope.aigc.imagesynthesis.ImageSynthesisResult;
 import com.alibaba.dashscope.exception.ApiException;
 import com.alibaba.dashscope.exception.NoApiKeyException;
 import com.alibaba.dashscope.utils.JsonUtils;
-import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.ricky.common.exception.MyException;
 import org.ricky.core.common.api.RestApis;
-import org.ricky.core.utilitytool.config.PixivProperties;
 import org.ricky.core.utilitytool.config.TongyiProperties;
 import org.ricky.core.utilitytool.domain.LiveWeather;
 import org.ricky.core.utilitytool.domain.TranslationInfo;
@@ -24,21 +19,17 @@ import org.ricky.core.utilitytool.service.UtilityToolService;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
-import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.joining;
 import static org.ricky.common.exception.ErrorCodeEnum.*;
 import static org.ricky.core.common.constants.ConfigConstant.*;
 import static org.ricky.core.common.constants.ErrorMsgConstants.*;
 import static org.ricky.core.common.constants.SuccessMsgConstants.*;
-import static org.ricky.core.common.utils.AesUtil.encrypt;
 import static org.ricky.core.common.utils.BotUtil.sendTextGroupMsg;
 import static org.ricky.core.common.utils.ValidationUtil.isEmpty;
 
@@ -57,7 +48,6 @@ public class UtilityToolServiceImpl implements UtilityToolService {
     private final RestApis restApis;
     private final ChatModel chatModel;
     private final TongyiProperties tongyiProperties;
-    private final PixivProperties pixivProperties;
 
     @Override
     public String weather(String city) {
@@ -100,65 +90,6 @@ public class UtilityToolServiceImpl implements UtilityToolService {
         List<String> urls = asyncCall(prompt);
         log.info("通义万相文生图 urls: {}", urls);
         return urls;
-    }
-
-    @Override
-    public List<String> randomPic(String keyword) {
-        sendTextGroupMsg(String.format(PLEASE_WAIT_FOR_SEARCH_MSG, PIXIV));
-
-        String json = restApis.getRandomPicByKeyword(keyword);
-
-        Gson gson = new Gson();
-        Type type = new TypeToken<List<JsonUrl>>() {
-        }.getType();
-        List<JsonUrl> objs = gson.fromJson(json, type);
-
-        List<String> urls = objs.stream()
-                .map(obj -> obj.url)
-                .collect(toImmutableList());
-
-        if (isEmpty(urls)) {
-            sendTextGroupMsg(RANDOM_PIC_NOT_FOUND_MSG);
-            return emptyList();
-        }
-
-        log.info("keyword: {}, urls: {}", keyword, urls);
-        return urls;
-    }
-
-    @Override
-    public List<String> randomPic2(String keyword) {
-        if (!pixivProperties.isEnable()) {
-            throw new MyException(NOT_SUPPORTED_THIS_SERVER, "暂不支持该项服务！");
-        }
-
-        sendTextGroupMsg(String.format(PLEASE_WAIT_FOR_SEARCH_MSG, PIXIV));
-
-        String json = restApis.getRandomPicByKeyword2(keyword);
-        Gson gson = new Gson();
-        Type type = new TypeToken<List<JsonUrl>>() {
-        }.getType();
-        List<JsonUrl> objs = gson.fromJson(json, type);
-
-        List<String> urls = objs.stream()
-                .map(obj -> obj.url)
-                .collect(toImmutableList());
-
-        if (isEmpty(urls)) {
-            sendTextGroupMsg(RANDOM_PIC_NOT_FOUND_MSG);
-            return List.of();
-        }
-
-        log.info("keyword: {}, urls: {}", keyword, urls);
-        return urls.stream()
-                .map(url -> {
-                    try {
-                        return encrypt(url, pixivProperties.getSecretKey());
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                })
-                .collect(toImmutableList());
     }
 
     @Override
@@ -240,10 +171,5 @@ public class UtilityToolServiceImpl implements UtilityToolService {
         return result.getOutput().getResults().stream()
                 .map(mp -> mp.get(URL))
                 .collect(toImmutableList());
-    }
-
-    @Data
-    private static class JsonUrl {
-        private String url;
     }
 }

@@ -19,9 +19,5 @@ public interface UtilityToolService {
 
     List<String> text2image(String prompt);
 
-    List<String> randomPic(String keyword);
-
-    List<String> randomPic2(String keyword);
-
     String translation(TranslationInfo info);
 }

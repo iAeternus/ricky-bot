@@ -1,5 +1,6 @@
 package org.ricky.core.common.utils;
 
+import cn.hutool.http.HttpUtil;
 import com.mikuac.shiro.common.utils.MsgUtils;
 import com.mikuac.shiro.core.Bot;
 import com.mikuac.shiro.dto.event.message.GroupMessageEvent;
@@ -8,6 +9,7 @@ import org.ricky.core.common.context.ThreadLocalContext;
 
 import java.util.List;
 
+import static cn.hutool.http.HtmlUtil.unescape;
 import static org.ricky.common.exception.ErrorCodeEnum.CMD_NOT_FOUND;
 import static org.ricky.core.common.constants.ErrorMsgConstants.CMD_NOT_FOUND_MSG;
 import static org.ricky.core.common.utils.ValidationUtil.isBlank;
@@ -77,7 +79,7 @@ public class BotUtil {
         if (!message.startsWith(cmd)) {
             throw new MyException(CMD_NOT_FOUND, CMD_NOT_FOUND_MSG);
         }
-        return message.substring(cmd.length()).trim();
+        return unescape(message.substring(cmd.length()).trim());
     }
 
 }
