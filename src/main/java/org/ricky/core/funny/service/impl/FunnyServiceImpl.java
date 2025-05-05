@@ -7,8 +7,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.ricky.common.exception.MyException;
 import org.ricky.core.common.api.RestApis;
-import org.ricky.core.funny.service.FunnyService;
 import org.ricky.core.funny.config.PixivProperties;
+import org.ricky.core.funny.service.FunnyService;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -55,6 +55,7 @@ public class FunnyServiceImpl implements FunnyService {
                 .collect(toImmutableList());
 
         if (isEmpty(urls)) {
+            log.info("keyword: {}, urls: {}", keyword, urls);
             sendTextGroupMsg(RANDOM_PIC_NOT_FOUND_MSG);
             return emptyList();
         }
@@ -96,6 +97,15 @@ public class FunnyServiceImpl implements FunnyService {
                     }
                 })
                 .collect(toImmutableList());
+    }
+
+    @Override
+    public String pidSearch(String keyword) {
+        String[] split = keyword.split("-");
+        if (split.length == 1) {
+            return restApis.pidSearch(split[0], "1");
+        }
+        return restApis.pidSearch(split[0], split[1]);
     }
 
     @Data

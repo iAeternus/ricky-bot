@@ -20,4 +20,7 @@ public interface UtilityToolService {
     List<String> text2image(String prompt);
 
     String translation(TranslationInfo info);
+
+    void randomSentence();
+
 }

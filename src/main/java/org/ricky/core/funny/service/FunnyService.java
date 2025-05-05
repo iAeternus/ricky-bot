@@ -15,4 +15,5 @@ public interface FunnyService {
 
     List<String> randomPic2(String keyword);
 
+    String pidSearch(String keyword);
 }

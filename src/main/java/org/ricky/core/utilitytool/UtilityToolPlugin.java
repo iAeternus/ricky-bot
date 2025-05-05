@@ -110,4 +110,12 @@ public class UtilityToolPlugin {
         return MESSAGE_IGNORE;
     }
 
+    @GroupMessageHandler
+    @MessageHandlerFilter(startWith = R_SENTENCE_CMD)
+    @HandleException(handler = BotExceptionHandler.class)
+    public int randomSentence(Bot bot, GroupMessageEvent evt) {
+        utilityToolService.randomSentence();
+        return MESSAGE_IGNORE;
+    }
+
 }

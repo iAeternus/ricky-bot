@@ -45,6 +45,7 @@ public enum ErrorCodeEnum {
     ANNOTATION_NOT_FOUND(404),
     CITY_NOT_FOUND(404),
     CMD_NOT_FOUND(404),
+    PIC_NOT_FOUND(404),
 
     // 409
     PROCESS_ERROR(409),
@@ -63,6 +64,7 @@ public enum ErrorCodeEnum {
     NOT_SUPPORTED_THIS_SERVER(409),
     API_CALL_FAILED(409),
     NO_RESULT(409),
+    PID_IDX_OUT_OF_RANGE(409),
 
     // 426
 

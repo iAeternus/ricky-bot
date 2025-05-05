@@ -25,5 +25,8 @@ public interface CmdConstants {
     String DERIVATIVE_CMD = "#导数";
     String LIMIT_CMD = "#极限";
     String FUNCTION_HELP_CMD = "#函数帮助";
+    String POKE_CMD = "#戳ta";
+    String PID_CMD = "#pid";
+    String R_SENTENCE_CMD = "#金句";
 
 }

@@ -16,15 +16,24 @@ import org.ricky.core.utilitytool.domain.LiveWeather;
 import org.ricky.core.utilitytool.domain.TranslationInfo;
 import org.ricky.core.utilitytool.domain.WeatherResponse;
 import org.ricky.core.utilitytool.service.UtilityToolService;
+import org.springframework.ai.chat.memory.ChatMemory;
+import org.springframework.ai.chat.messages.AssistantMessage;
+import org.springframework.ai.chat.messages.Message;
+import org.springframework.ai.chat.messages.SystemMessage;
+import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.model.ChatModel;
+import org.springframework.ai.chat.model.ChatResponse;
+import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static java.lang.String.format;
 import static java.util.stream.Collectors.joining;
 import static org.ricky.common.exception.ErrorCodeEnum.*;
 import static org.ricky.core.common.constants.ConfigConstant.*;
@@ -48,6 +57,9 @@ public class UtilityToolServiceImpl implements UtilityToolService {
     private final RestApis restApis;
     private final ChatModel chatModel;
     private final TongyiProperties tongyiProperties;
+    private final ChatMemory chatMemory;
+
+    private static final SystemMessage SYSTEM_MESSAGE = new SystemMessage(DEEP_SEEK_PROMPT);
 
     @Override
     public String weather(String city) {
@@ -65,7 +77,7 @@ public class UtilityToolServiceImpl implements UtilityToolService {
         }
 
         return lives.stream()
-                .map(weather -> String.format(WEATHER_MSG,
+                .map(weather -> format(WEATHER_MSG,
                         weather.getProvince(),
                         weather.getCity(),
                         weather.getWeather(),
@@ -79,14 +91,36 @@ public class UtilityToolServiceImpl implements UtilityToolService {
 
     @Override
     public String deepseekChat(String message) {
-        sendTextGroupMsg(String.format(PLEASE_WAIT_FOR_GEN_MSG, DEEP_SEEK_MODEL));
-        String ans = chatModel.call(message);
+        sendTextGroupMsg(format(PLEASE_WAIT_FOR_GEN_MSG, DEEP_SEEK_MODEL));
+
+        UserMessage userMessage = new UserMessage(message);
+        List<Message> messages = new ArrayList<>();
+        messages.add(SYSTEM_MESSAGE);
+
+        // 获取最新的历史消息
+        List<Message> history = chatMemory.get(DEFAULT_CONVERSATION_ID, MAX_HISTORY);
+        messages.addAll(history);
+        messages.add(userMessage);
+
+        // 创建Prompt
+        Prompt prompt = new Prompt(messages);
+
+        // 调用模型
+        ChatResponse response = chatModel.call(prompt);
+        String ans = response.getResult().getOutput().getContent();
+
+        // 存储对话到记忆
+        chatMemory.add(DEFAULT_CONVERSATION_ID, List.of(
+                userMessage,
+                new AssistantMessage(ans)
+        ));
+
         return GENERATED_BY_AI_MSG + ans;
     }
 
     @Override
     public List<String> text2image(String prompt) {
-        sendTextGroupMsg(String.format(PLEASE_WAIT_FOR_GEN_MSG, TONGYI_MODEL));
+        sendTextGroupMsg(format(PLEASE_WAIT_FOR_GEN_MSG, TONGYI_MODEL));
         List<String> urls = asyncCall(prompt);
         log.info("通义万相文生图 urls: {}", urls);
         return urls;
@@ -96,7 +130,7 @@ public class UtilityToolServiceImpl implements UtilityToolService {
     public String translation(TranslationInfo info) {
         JSONObject json = restApis.getTranslation(info.getQ(), info.getFrom(), info.getTo());
         checkTranslationApiCall(json);
-        
+
         return Optional.ofNullable(json.getJSONArray("trans_result"))
                 .filter(arr -> !arr.isEmpty())
                 .map(transResults -> IntStream.range(0, transResults.size())
@@ -104,6 +138,21 @@ public class UtilityToolServiceImpl implements UtilityToolService {
                         .collect(Collectors.joining(" "))
                         .trim())
                 .orElseThrow(() -> new MyException(NO_RESULT, NO_RESULT_MSG));
+    }
+
+    @Override
+    public void randomSentence() {
+        JSONObject json = restApis.hitokoto();
+        log.info("RandomSentence: {}", json);
+        sendTextGroupMsg(buildSentenceResult(json));
+    }
+
+    private String buildSentenceResult(JSONObject json) {
+        String hitokoto = json.getString("hitokoto");
+        String from = json.getString("from");
+        String fromWho = json.getString("from_who");
+        return format("%s\n%s %s",
+                hitokoto, from != null ? from : "出处不详", fromWho != null ? fromWho : "佚名");
     }
 
     private void checkTranslationApiCall(JSONObject response) {
@@ -119,7 +168,6 @@ public class UtilityToolServiceImpl implements UtilityToolService {
         throw new MyException(API_CALL_FAILED, API_CALL_FAILED_MSG,
                 "error_code", errorCode, "error_msg", errorMsg);
     }
-
 
     private List<String> asyncCall(String prompt) {
         String taskId = createAsyncTask(prompt);
