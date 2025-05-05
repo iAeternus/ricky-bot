@@ -39,7 +39,7 @@ public class TranslationInfo {
     String to;
 
     public static TranslationInfo of(List<String> args) {
-        if(args.size() != 2 && args.size() != 3) {
+        if (args.size() != 2 && args.size() != 3) {
             throw new MyException(INVALID_CMD_ARGS, INVALID_CMD_ARGS_MSG);
         }
 

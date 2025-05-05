@@ -11,7 +11,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static java.lang.Integer.parseInt;
-import static java.lang.Long.parseLong;
 import static org.ricky.common.exception.ErrorCodeEnum.INVALID_CMD_ARGS;
 import static org.ricky.core.common.constants.ErrorMsgConstants.INVALID_CMD_ARGS_MSG;
 import static org.ricky.core.common.constants.RegexConstants.AT_CQ_REGEX;
@@ -49,7 +48,7 @@ public class PokeInfo {
 
     private static String extractUserId(String atCQ) {
         Matcher matcher = AT_CQ_PATTERN.matcher(atCQ);
-        if(!matcher.find()) {
+        if (!matcher.find()) {
             throw new MyException(INVALID_CMD_ARGS, INVALID_CMD_ARGS_MSG);
         }
         return matcher.group(1);

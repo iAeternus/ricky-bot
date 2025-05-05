@@ -18,7 +18,8 @@ import java.net.URISyntaxException;
 import static cn.hutool.crypto.digest.DigestUtil.md5Hex;
 import static java.lang.String.format;
 import static org.apache.commons.lang3.RandomStringUtils.randomNumeric;
-import static org.ricky.common.exception.ErrorCodeEnum.*;
+import static org.ricky.common.exception.ErrorCodeEnum.INVALID_CMD_ARGS;
+import static org.ricky.common.exception.ErrorCodeEnum.PIC_NOT_FOUND;
 import static org.ricky.core.common.utils.ValidationUtil.isBlank;
 import static org.springframework.http.HttpMethod.GET;
 

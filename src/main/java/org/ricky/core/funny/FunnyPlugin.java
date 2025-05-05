@@ -4,11 +4,8 @@ import com.alibaba.fastjson2.JSONObject;
 import com.mikuac.shiro.annotation.GroupMessageHandler;
 import com.mikuac.shiro.annotation.MessageHandlerFilter;
 import com.mikuac.shiro.annotation.common.Shiro;
-import com.mikuac.shiro.common.utils.MsgUtils;
 import com.mikuac.shiro.core.Bot;
 import com.mikuac.shiro.dto.event.message.GroupMessageEvent;
-import com.mikuac.shiro.dto.event.notice.NoticeEvent;
-import com.mikuac.shiro.dto.event.notice.PokeNoticeEvent;
 import com.mikuac.shiro.handler.event.NotifyEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +20,6 @@ import java.util.List;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.mikuac.shiro.core.BotPlugin.MESSAGE_IGNORE;
-import static java.util.Arrays.stream;
 import static org.ricky.core.common.constants.CmdConstants.*;
 import static org.ricky.core.common.utils.BotUtil.*;
 
@@ -81,6 +77,7 @@ public class FunnyPlugin {
 
     /**
      * TODO
+     *
      * @see <a href="https://apifox.com/apidoc/shared/c3bab595-b4a3-429b-a873-cbbe6b9a1f6a/226659265e0">参考api</a>
      */
     @GroupMessageHandler
@@ -95,7 +92,7 @@ public class FunnyPlugin {
 
         PokeInfo info = PokeInfo.of(args);
 
-        for(int i = 0; i < info.getTimes(); ++i) {
+        for (int i = 0; i < info.getTimes(); ++i) {
             // String pokeMsg = MsgUtils.builder()
             //         .poke(info.getUserId())
             //         .build();

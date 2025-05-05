@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static cn.hutool.http.HtmlUtil.unescape;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.mikuac.shiro.core.BotPlugin.MESSAGE_IGNORE;
 import static java.util.Arrays.stream;

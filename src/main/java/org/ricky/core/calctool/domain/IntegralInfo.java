@@ -11,7 +11,6 @@ import java.util.List;
 import static org.ricky.common.exception.ErrorCodeEnum.INVALID_CMD_ARGS;
 import static org.ricky.core.common.constants.ErrorMsgConstants.INVALID_CMD_ARGS_MSG;
 import static org.ricky.core.common.utils.ValidationUtil.isNotBlank;
-import static org.ricky.core.common.utils.ValidationUtil.isNotEmpty;
 
 /**
  * @author Ricky

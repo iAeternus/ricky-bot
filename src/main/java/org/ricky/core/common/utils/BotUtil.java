@@ -1,6 +1,5 @@
 package org.ricky.core.common.utils;
 
-import cn.hutool.http.HttpUtil;
 import com.mikuac.shiro.common.utils.MsgUtils;
 import com.mikuac.shiro.core.Bot;
 import com.mikuac.shiro.dto.event.message.GroupMessageEvent;
